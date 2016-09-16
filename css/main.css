@@ -1,3 +1,30 @@
 body {
+  margin-top: 10px;
   background-color: white;
+}
+
+#header_img {
+  height: 80px;
+  width: auto;
+  margin-bottom: 20px;
+}
+
+#header_txt {
+  display: inline-block;
+}
+
+#header_hr {
+  margin: 0 0 0 0;
+}
+
+.social_icons {
+  margin-left: 10px;
+}
+
+#git_logo, #git_logo:link, #git_logo:hover, #git_logo:visited {
+  color: black;
+}
+
+#facebook_logo, #facebook_logo:link, #facebook_logo:hover, #facebook_logo:visited {
+  color: #2D4486;
 }
