@@ -28,3 +28,7 @@ body {
 #facebook_logo, #facebook_logo:link, #facebook_logo:hover, #facebook_logo:visited {
   color: #2D4486;
 }
+
+#linkedin_logo, #linkedin_logo:link, #linkedin_logo:hover, #linkedin_logo:visited {
+  color: #1871AE;
+}
