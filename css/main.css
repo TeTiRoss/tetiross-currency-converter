@@ -3,6 +3,14 @@ body {
   background-color: white;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Slabo 27px', serif;
+}
+
+p {
+  font-family: 'Patua One', cursive;
+}
+
 #header_img {
   height: 80px;
   width: auto;
@@ -11,6 +19,8 @@ body {
 
 #header_txt {
   display: inline-block;
+  font-family: 'PT Sans Narrow', sans-serif;
+  font-weight: bold;
 }
 
 #header_hr {
