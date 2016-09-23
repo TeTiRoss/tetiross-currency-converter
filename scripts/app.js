@@ -19,42 +19,42 @@ var ReactHeader = React.createClass({
   }
 });
 
-var Header = React.createClass({
-  render: function () {
-    return (
-      <div className='col-md-8 col-md-offset-2'>
-				<h1 id='header_txt'>TeTiRoss</h1>
-				<a id="git_logo" className="social_icons" target='blank' href="https://github.com/TeTiRoss"><i className="fa fa-github fa-2x" aria-hidden="true"></i></a>
-				<a id="facebook_logo" className="social_icons" target='blank' href="https://www.facebook.com/rostyk.semanyshyn"><i className="fa fa-facebook-square fa-2x" aria-hidden="true"></i></a>
-        <a id="linkedin_logo" className="social_icons" target='blank' href="https://www.linkedin.com/in/rostyk-semanyshyn-04528a116"><i className="fa fa-linkedin-square fa-2x" aria-hidden="true"></i></a>
-        <hr id="header_hr" />
-			</div>
-    );
-  }
-})
+// var Header = React.createClass({
+//   render: function () {
+//     return (
+//       <div className='col-md-8 col-md-offset-2'>
+// 				<h1 id='header_txt'>TeTiRoss</h1>
+// 				<a id="git_logo" className="social_icons" target='blank' href="https://github.com/TeTiRoss"><i className="fa fa-github fa-2x" aria-hidden="true"></i></a>
+// 				<a id="facebook_logo" className="social_icons" target='blank' href="https://www.facebook.com/rostyk.semanyshyn"><i className="fa fa-facebook-square fa-2x" aria-hidden="true"></i></a>
+//         <a id="linkedin_logo" className="social_icons" target='blank' href="https://www.linkedin.com/in/rostyk-semanyshyn-04528a116"><i className="fa fa-linkedin-square fa-2x" aria-hidden="true"></i></a>
+//         <hr id="header_hr" />
+// 			</div>
+//     );
+//   }
+// })
 
-var Bio = React.createClass({
-  render: function () {
-    return (
-      <div className='col-md-8 col-md-offset-2'>
-				<h1>Bio</h1>
-				<p>My name is Rostyslav. I&#39;m web developer. I live and work in Ukraine. <br/> <br/>
-					<b>Skills:</b>
-					<ul>
-						<li>Ruby</li>
-					 	<li>Ruby on Rails</li>
-						<li>HTML</li>
-						<li>CSS</li>
-						<li>JavaScript</li>
-						<li>jQuery</li>
-						<li>Ajax</li>
-						<li>ReactJS</li>
-					</ul>
-				</p>
-      </div>
-    );
-  }
-})
+// var Bio = React.createClass({
+//   render: function () {
+//     return (
+//       <div className='col-md-8 col-md-offset-2'>
+// 				<h1>Bio</h1>
+// 				<p>My name is Rostyslav. I&#39;m web developer. I live and work in Ukraine. <br/> <br/>
+// 					<b>Skills:</b>
+// 					<ul>
+// 						<li>Ruby</li>
+// 					 	<li>Ruby on Rails</li>
+// 						<li>HTML</li>
+// 						<li>CSS</li>
+// 						<li>JavaScript</li>
+// 						<li>jQuery</li>
+// 						<li>Ajax</li>
+// 						<li>ReactJS</li>
+// 					</ul>
+// 				</p>
+//       </div>
+//     );
+//   }
+// })
 
 var ListItemContainer = React.createClass({
   getInitialState: function() {
@@ -79,7 +79,10 @@ var ListItemContainer = React.createClass({
     return (
       <div className='col-md-8 col-md-offset-2'>
         <div className='react_item_container'>
-          <p>Simple form built on ReactJS that allows you to add items to the list.</p>
+          <p>
+            Simple form built on ReactJS that allows you to add items to the list.
+            Added content will be gone on page refresh.
+          </p>
 
           <ListItemForm onFormSubmit={this.handleSubmit} />
           <br/>
@@ -104,7 +107,8 @@ var ListItem = React.createClass({
 var ListItemForm = React.createClass({
   getInitialState: function() {
     return {
-      text: ''
+      text: '',
+      empty_field: false
     }
   },
 
@@ -119,7 +123,10 @@ var ListItemForm = React.createClass({
     var text = this.state.text.trim();
 
     if (!text) {
+      this.setState({empty_field: true});
       return;
+    } else if (this.state.empty_field == true) {
+      this.setState({empty_field: false});
     }
 
     this.setState({text: ''});
@@ -127,11 +134,20 @@ var ListItemForm = React.createClass({
   },
 
   render: function() {
+
+    var error_msg = (
+      <div className='alert alert-danger'>
+        Input field can&#39;t be empty.
+      </div>
+    );
+
     return (
+
       <form onSubmit={this.handleSubmit}
        className='form-inline'>
+       {this.state.empty_field ? error_msg : ''}
         <div className="input-group">
-          <input id ='list_item_input' type='text' value={this.state.text}
+          <input id='list_item_input' type='text' value={this.state.text}
            onChange={this.handleTextChange} className='form-control input-sm'/>
           <span className="input-group-btn">
             <button className='btn btn-sm btn-info'>Add to list</button>
