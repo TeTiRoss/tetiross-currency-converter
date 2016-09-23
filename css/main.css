@@ -44,3 +44,12 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 7px;
   padding: 10px;
 }
+
+#list_item_input {
+  box-shadow: none;
+  border-color: #BCBCBC;
+  background-color: white;
+}
+#list_item_input:focus {
+  border: 2px solid #4DB3D6
+}

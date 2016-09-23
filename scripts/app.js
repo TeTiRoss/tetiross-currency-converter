@@ -116,7 +116,11 @@ var ListItemForm = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
 
-    var text = this.state.text;
+    var text = this.state.text.trim();
+
+    if (!text) {
+      return;
+    }
 
     this.setState({text: ''});
     this.props.onFormSubmit(text);
@@ -127,7 +131,7 @@ var ListItemForm = React.createClass({
       <form onSubmit={this.handleSubmit}
        className='form-inline'>
         <div className="input-group">
-          <input type='text' value={this.state.text}
+          <input id ='list_item_input' type='text' value={this.state.text}
            onChange={this.handleTextChange} className='form-control input-sm'/>
           <span className="input-group-btn">
             <button className='btn btn-sm btn-info'>Add to list</button>
