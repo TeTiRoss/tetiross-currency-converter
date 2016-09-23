@@ -1,11 +1,11 @@
 body {
   margin-top: 10px;
   background-color: white;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Fira Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #header_img {
@@ -16,7 +16,6 @@ h1, h2, h3, h4, h5, h6 {
 
 #header_txt {
   display: inline-block;
-  font-family: 'PT Sans Narrow', sans-serif;
   font-weight: bold;
 }
 
@@ -38,4 +37,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #linkedin_logo, #linkedin_logo:link, #linkedin_logo:hover, #linkedin_logo:visited {
   color: #1871AE;
+}
+
+.react_item_container {
+  border: 4px solid black;
+  border-radius: 7px;
+  padding: 10px;
 }
