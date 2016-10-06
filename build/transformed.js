@@ -21610,6 +21610,7 @@
 	        currencyTo: rate.base_ccy,
 	        buy: rate.buy,
 	        sale: rate.sale,
+	        rateBoxClass: i === 0 ? 'rate-box active' : 'rate-box',
 	        key: i
 	      });
 	    });
@@ -21625,7 +21626,17 @@
 	          null,
 	          ' Exchange rate app '
 	        ),
-	        React.createElement('hr', null),
+	        React.createElement(
+	          'p',
+	          null,
+	          'App converts your input by the exchange rate of chosen currency. When converting it is using ',
+	          React.createElement(
+	            'b',
+	            null,
+	            ' Buy '
+	          ),
+	          ' rate.'
+	        ),
 	        rate_boxes,
 	        React.createElement(ExchangeRateCalculator, { rates: this.state.rates })
 	      )
@@ -21636,7 +21647,7 @@
 	function RateBox(props) {
 	  return React.createElement(
 	    'div',
-	    { className: 'rate-box',
+	    { className: props.rateBoxClass,
 	      style: props.currencyFrom === 'RUR' ? { display: 'none' } : {} },
 	    React.createElement(
 	      'h4',

@@ -30,6 +30,7 @@ var ExchangeRateContainer = React.createClass({
         currencyTo={rate.base_ccy}
         buy={rate.buy}
         sale={rate.sale}
+        rateBoxClass={ i === 0 ? 'rate-box active' : 'rate-box' }
         key={i}
       />
     });
@@ -38,7 +39,10 @@ var ExchangeRateContainer = React.createClass({
       <div className='col-md-8 col-md-offset-2'>
         <div className='react_item_container'>
           <h4> Exchange rate app </h4>
-          <hr />
+          <p>
+            App converts your input by the exchange rate of chosen currency.
+            When converting it is using <b> Buy </b> rate.
+          </p>
           {rate_boxes}
           <ExchangeRateCalculator rates={this.state.rates} />
         </div>
@@ -49,7 +53,7 @@ var ExchangeRateContainer = React.createClass({
 
 function RateBox (props) {
   return (
-    <div className='rate-box'
+    <div className={props.rateBoxClass}
          style={props.currencyFrom === 'RUR' ? {display: 'none'} : {}} >
 
       <h4> {props.currencyFrom} &#45; {props.currencyTo} </h4>
