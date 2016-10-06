@@ -131,8 +131,8 @@
 	  },
 
 	  render: function () {
-	    var list_items = this.state.list_items.map(function (item) {
-	      return React.createElement(ListItem, { text: item });
+	    var list_items = this.state.list_items.map(function (item, i) {
+	      return React.createElement(ListItem, { text: item, key: i });
 	    });
 
 	    return React.createElement(
@@ -158,17 +158,13 @@
 	  }
 	});
 
-	var ListItem = React.createClass({
-	  displayName: 'ListItem',
-
-	  render: function () {
-	    return React.createElement(
-	      'li',
-	      null,
-	      this.props.text
-	    );
-	  }
-	});
+	function ListItem(props) {
+	  return React.createElement(
+	    'li',
+	    null,
+	    props.text
+	  );
+	};
 
 	var ListItemForm = React.createClass({
 	  displayName: 'ListItemForm',

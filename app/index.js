@@ -75,8 +75,8 @@ var ListItemContainer = React.createClass({
   },
 
   render: function() {
-    var list_items = this.state.list_items.map(function(item) {
-      return <ListItem text={item} />
+    var list_items = this.state.list_items.map(function(item, i) {
+      return <ListItem text={item} key={i} />
     });
 
     return (
@@ -99,13 +99,9 @@ var ListItemContainer = React.createClass({
   }
 });
 
-var ListItem = React.createClass({
-  render: function() {
-    return (
-      <li>{this.props.text}</li>
-    );
-  }
-});
+function ListItem(props) {
+  return <li>{props.text}</li>;
+};
 
 var ListItemForm = React.createClass({
   getInitialState: function() {
