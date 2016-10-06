@@ -47,7 +47,8 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 
-	var ListItemContainer = __webpack_require__(172);
+	var ListItems = __webpack_require__(172);
+	var ExchangeRate = __webpack_require__(173);
 
 	var App = React.createClass({
 	  displayName: 'App',
@@ -57,7 +58,8 @@
 	      'div',
 	      null,
 	      React.createElement(ReactHeader, null),
-	      React.createElement(ListItemContainer, null)
+	      React.createElement(ListItems, null),
+	      React.createElement(ExchangeRate, null)
 	    );
 	  }
 	});
@@ -21569,6 +21571,34 @@
 	});
 
 	module.exports = ListItemContainer;
+
+/***/ },
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var ExchangeRateContainer = React.createClass({
+	  displayName: 'ExchangeRateContainer',
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-8 col-md-offset-2' },
+	      React.createElement(
+	        'div',
+	        { className: 'react_item_container' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Exchange rate app.'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ExchangeRateContainer;
 
 /***/ }
 /******/ ]);

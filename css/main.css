@@ -43,6 +43,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 4px solid black;
   border-radius: 7px;
   padding: 10px;
+  margin-bottom: 10px;
 }
 
 #list_item_input {

@@ -1,14 +1,16 @@
 var React = require('react');
 var ReactDOM = require('react-dom')
 
-var ListItemContainer = require('./components/ListItemContainer')
+var ListItems = require('./components/ListItems');
+var ExchangeRate = require('./components/ExchangeRate')
 
 var App = React.createClass({
   render: function () {
     return (
       <div>
         <ReactHeader />
-        <ListItemContainer />
+        <ListItems />
+        <ExchangeRate />
       </div>
     );
   }
