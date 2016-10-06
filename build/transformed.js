@@ -21657,7 +21657,7 @@
 	    React.createElement(
 	      'p',
 	      null,
-	      ' Sell: ',
+	      ' Sale: ',
 	      props.sale,
 	      ' '
 	    )
@@ -21669,13 +21669,24 @@
 
 	  getInitialState: function () {
 	    return {
-	      number: '',
-	      exchanged_number: ''
+	      number: null,
+	      exchanged_number: null
 	    };
 	  },
 
 	  handleNumberChange: function (e) {
-	    this.setState({ number: e.target.value });
+	    newNumber = e.target.value;
+
+	    if (newNumber != '') {
+	      exchanged_number = (parseInt(newNumber, 10) * this.props.rates[0].buy).toFixed(2);
+	    } else {
+	      exchanged_number = '';
+	    };
+
+	    this.setState({
+	      number: newNumber,
+	      exchanged_number: exchanged_number
+	    });
 	  },
 
 	  render: function () {
@@ -21689,7 +21700,9 @@
 	          'div',
 	          { className: 'col-xs-3' },
 	          React.createElement('input', {
-	            type: 'text',
+	            type: 'number',
+	            min: '1',
+	            max: '9999999999',
 	            className: 'form-control input-sm',
 	            id: 'exchange_input',
 	            value: this.state.inputNumber,

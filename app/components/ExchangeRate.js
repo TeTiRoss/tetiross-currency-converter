@@ -54,7 +54,7 @@ function RateBox (props) {
 
       <h4> {props.currencyFrom} &#45; {props.currencyTo} </h4>
       <p> Buy: {props.buy} </p>
-      <p> Sell: {props.sale} </p>
+      <p> Sale: {props.sale} </p>
     </div>
   );
 };
@@ -62,13 +62,25 @@ function RateBox (props) {
 var ExchangeRateCalculator = React.createClass({
   getInitialState: function () {
     return {
-      number: '',
-      exchanged_number: ''
+      number: null,
+      exchanged_number: null
     }
   },
 
   handleNumberChange: function (e) {
-    this.setState({number: e.target.value})
+    newNumber = e.target.value;
+
+    if (newNumber != '') {
+      exchanged_number = (parseInt(newNumber, 10) * this.props.rates[0].buy)
+                           .toFixed(2)
+    } else {
+      exchanged_number = ''
+    };
+
+    this.setState({
+      number: newNumber,
+      exchanged_number: exchanged_number
+    });
   },
 
   render: function () {
@@ -77,7 +89,9 @@ var ExchangeRateCalculator = React.createClass({
         <div className='row'>
           <div className='col-xs-3'>
             <input
-              type='text'
+              type='number'
+              min='1'
+              max='9999999999'
               className='form-control input-sm'
               id='exchange_input'
               value={this.state.inputNumber}
