@@ -47,6 +47,8 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 
+	var ListItemContainer = __webpack_require__(172);
+
 	var App = React.createClass({
 	  displayName: 'App',
 
@@ -71,159 +73,6 @@
 	        'h1',
 	        null,
 	        'React apps'
-	      )
-	    );
-	  }
-	});
-
-	// var Header = React.createClass({
-	//   render: function () {
-	//     return (
-	//       <div className='col-md-8 col-md-offset-2'>
-	// 				<h1 id='header_txt'>TeTiRoss</h1>
-	// 				<a id="git_logo" className="social_icons" target='blank' href="https://github.com/TeTiRoss"><i className="fa fa-github fa-2x" aria-hidden="true"></i></a>
-	// 				<a id="facebook_logo" className="social_icons" target='blank' href="https://www.facebook.com/rostyk.semanyshyn"><i className="fa fa-facebook-square fa-2x" aria-hidden="true"></i></a>
-	//         <a id="linkedin_logo" className="social_icons" target='blank' href="https://www.linkedin.com/in/rostyk-semanyshyn-04528a116"><i className="fa fa-linkedin-square fa-2x" aria-hidden="true"></i></a>
-	//         <hr id="header_hr" />
-	// 			</div>
-	//     );
-	//   }
-	// })
-
-	// var Bio = React.createClass({
-	//   render: function () {
-	//     return (
-	//       <div className='col-md-8 col-md-offset-2'>
-	// 				<h1>Bio</h1>
-	// 				<p>My name is Rostyslav. I&#39;m web developer. I live and work in Ukraine. <br/> <br/>
-	// 					<b>Skills:</b>
-	// 					<ul>
-	// 						<li>Ruby</li>
-	// 					 	<li>Ruby on Rails</li>
-	// 						<li>HTML</li>
-	// 						<li>CSS</li>
-	// 						<li>JavaScript</li>
-	// 						<li>jQuery</li>
-	// 						<li>Ajax</li>
-	// 						<li>ReactJS</li>
-	// 					</ul>
-	// 				</p>
-	//       </div>
-	//     );
-	//   }
-	// })
-
-	var ListItemContainer = React.createClass({
-	  displayName: 'ListItemContainer',
-
-	  getInitialState: function () {
-	    return {
-	      list_items: ['example']
-	    };
-	  },
-
-	  handleSubmit: function (text) {
-	    var list_items = this.state.list_items;
-	    var new_list = list_items.concat([text]);
-	    this.setState({
-	      list_items: new_list
-	    });
-	  },
-
-	  render: function () {
-	    var list_items = this.state.list_items.map(function (item, i) {
-	      return React.createElement(ListItem, { text: item, key: i });
-	    });
-
-	    return React.createElement(
-	      'div',
-	      { className: 'col-md-8 col-md-offset-2' },
-	      React.createElement(
-	        'div',
-	        { className: 'react_item_container' },
-	        React.createElement(
-	          'p',
-	          null,
-	          'Simple form built on ReactJS that allows you to add items to the list. Added content will be gone on page refresh.'
-	        ),
-	        React.createElement(ListItemForm, { onFormSubmit: this.handleSubmit }),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'ul',
-	          null,
-	          list_items
-	        )
-	      )
-	    );
-	  }
-	});
-
-	function ListItem(props) {
-	  return React.createElement(
-	    'li',
-	    null,
-	    props.text
-	  );
-	};
-
-	var ListItemForm = React.createClass({
-	  displayName: 'ListItemForm',
-
-	  getInitialState: function () {
-	    return {
-	      text: '',
-	      empty_field: false
-	    };
-	  },
-
-	  handleTextChange: function (e) {
-	    var new_value = e.target.value;
-	    this.setState({ text: new_value });
-	  },
-
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-
-	    var text = this.state.text.trim();
-
-	    if (!text) {
-	      this.setState({ empty_field: true });
-	      return;
-	    } else if (this.state.empty_field == true) {
-	      this.setState({ empty_field: false });
-	    }
-
-	    this.setState({ text: '' });
-	    this.props.onFormSubmit(text);
-	  },
-
-	  render: function () {
-
-	    var error_msg = React.createElement(
-	      'div',
-	      { className: 'alert alert-danger' },
-	      'Input field can\'t be empty.'
-	    );
-
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleSubmit,
-	        className: 'form-inline' },
-	      this.state.empty_field ? error_msg : '',
-	      React.createElement(
-	        'div',
-	        { className: 'input-group' },
-	        React.createElement('input', { id: 'list_item_input', type: 'text', value: this.state.text,
-	          onChange: this.handleTextChange, className: 'form-control input-sm' }),
-	        React.createElement(
-	          'span',
-	          { className: 'input-group-btn' },
-	          React.createElement(
-	            'button',
-	            { className: 'btn btn-sm btn-info' },
-	            'Add to list'
-	          )
-	        )
 	      )
 	    );
 	  }
@@ -21596,6 +21445,130 @@
 
 	module.exports = ReactDOMNullInputValuePropHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 172 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var ListItemContainer = React.createClass({
+	  displayName: 'ListItemContainer',
+
+	  getInitialState: function () {
+	    return {
+	      list_items: ['example']
+	    };
+	  },
+
+	  handleSubmit: function (text) {
+	    var list_items = this.state.list_items;
+	    var new_list = list_items.concat([text]);
+	    this.setState({
+	      list_items: new_list
+	    });
+	  },
+
+	  render: function () {
+	    var list_items = this.state.list_items.map(function (item, i) {
+	      return React.createElement(ListItem, { text: item, key: i });
+	    });
+
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-8 col-md-offset-2' },
+	      React.createElement(
+	        'div',
+	        { className: 'react_item_container' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Simple form built on ReactJS that allows you to add items to the list. Added content will be gone on page refresh.'
+	        ),
+	        React.createElement(ListItemForm, { onFormSubmit: this.handleSubmit }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'ul',
+	          null,
+	          list_items
+	        )
+	      )
+	    );
+	  }
+	});
+
+	function ListItem(props) {
+	  return React.createElement(
+	    'li',
+	    null,
+	    props.text
+	  );
+	};
+
+	var ListItemForm = React.createClass({
+	  displayName: 'ListItemForm',
+
+	  getInitialState: function () {
+	    return {
+	      text: '',
+	      empty_field: false
+	    };
+	  },
+
+	  handleTextChange: function (e) {
+	    var new_value = e.target.value;
+	    this.setState({ text: new_value });
+	  },
+
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+
+	    var text = this.state.text.trim();
+
+	    if (!text) {
+	      this.setState({ empty_field: true });
+	      return;
+	    } else if (this.state.empty_field == true) {
+	      this.setState({ empty_field: false });
+	    }
+
+	    this.setState({ text: '' });
+	    this.props.onFormSubmit(text);
+	  },
+
+	  render: function () {
+
+	    var error_msg = React.createElement(
+	      'div',
+	      { className: 'alert alert-danger' },
+	      'Input field can\'t be empty.'
+	    );
+
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit,
+	        className: 'form-inline' },
+	      this.state.empty_field ? error_msg : '',
+	      React.createElement(
+	        'div',
+	        { className: 'input-group' },
+	        React.createElement('input', { id: 'list_item_input', type: 'text', value: this.state.text,
+	          onChange: this.handleTextChange, className: 'form-control input-sm' }),
+	        React.createElement(
+	          'span',
+	          { className: 'input-group-btn' },
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-sm btn-info' },
+	            'Add to list'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ListItemContainer;
 
 /***/ }
 /******/ ]);
