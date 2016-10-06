@@ -21670,7 +21670,7 @@
 	  getInitialState: function () {
 	    return {
 	      number: null,
-	      exchanged_number: null
+	      exchanged_number: ''
 	    };
 	  },
 
@@ -21690,6 +21690,14 @@
 	  },
 
 	  render: function () {
+	    var output = React.createElement(
+	      'h5',
+	      null,
+	      ' = ',
+	      this.state.exchanged_number,
+	      ' '
+	    );
+
 	    return React.createElement(
 	      'div',
 	      null,
@@ -21709,13 +21717,7 @@
 	            onChange: this.handleNumberChange })
 	        )
 	      ),
-	      React.createElement(
-	        'h5',
-	        null,
-	        ' = ',
-	        this.state.exchanged_number,
-	        ' '
-	      )
+	      this.state.exchanged_number != '' ? output : ''
 	    );
 	  }
 	});

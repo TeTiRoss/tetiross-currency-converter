@@ -63,7 +63,7 @@ var ExchangeRateCalculator = React.createClass({
   getInitialState: function () {
     return {
       number: null,
-      exchanged_number: null
+      exchanged_number: ''
     }
   },
 
@@ -84,6 +84,10 @@ var ExchangeRateCalculator = React.createClass({
   },
 
   render: function () {
+    var output = (
+      <h5> &#61; {this.state.exchanged_number} </h5>
+    );
+
     return (
       <div>
         <div className='row'>
@@ -98,7 +102,7 @@ var ExchangeRateCalculator = React.createClass({
               onChange={this.handleNumberChange} />
           </div>
         </div>
-        <h5> &#61; {this.state.exchanged_number} </h5>
+        {this.state.exchanged_number != '' ? output : ''}
       </div>
     );
   }
