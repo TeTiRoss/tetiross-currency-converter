@@ -21626,7 +21626,8 @@
 	          ' Exchange rate app '
 	        ),
 	        React.createElement('hr', null),
-	        rate_boxes
+	        rate_boxes,
+	        React.createElement(ExchangeRateCalculator, { rates: this.state.rates })
 	      )
 	    );
 	  }
@@ -21662,6 +21663,49 @@
 	    )
 	  );
 	};
+
+	var ExchangeRateCalculator = React.createClass({
+	  displayName: 'ExchangeRateCalculator',
+
+	  getInitialState: function () {
+	    return {
+	      number: '',
+	      exchanged_number: ''
+	    };
+	  },
+
+	  handleNumberChange: function (e) {
+	    this.setState({ number: e.target.value });
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'col-xs-3' },
+	          React.createElement('input', {
+	            type: 'text',
+	            className: 'form-control input-sm',
+	            id: 'exchange_input',
+	            value: this.state.inputNumber,
+	            onChange: this.handleNumberChange })
+	        )
+	      ),
+	      React.createElement(
+	        'h5',
+	        null,
+	        ' = ',
+	        this.state.exchanged_number,
+	        ' '
+	      )
+	    );
+	  }
+	});
 
 	module.exports = ExchangeRateContainer;
 

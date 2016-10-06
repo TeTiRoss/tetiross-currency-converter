@@ -40,6 +40,7 @@ var ExchangeRateContainer = React.createClass({
           <h4> Exchange rate app </h4>
           <hr />
           {rate_boxes}
+          <ExchangeRateCalculator rates={this.state.rates} />
         </div>
       </div>
     );
@@ -57,5 +58,36 @@ function RateBox (props) {
     </div>
   );
 };
+
+var ExchangeRateCalculator = React.createClass({
+  getInitialState: function () {
+    return {
+      number: '',
+      exchanged_number: ''
+    }
+  },
+
+  handleNumberChange: function (e) {
+    this.setState({number: e.target.value})
+  },
+
+  render: function () {
+    return (
+      <div>
+        <div className='row'>
+          <div className='col-xs-3'>
+            <input
+              type='text'
+              className='form-control input-sm'
+              id='exchange_input'
+              value={this.state.inputNumber}
+              onChange={this.handleNumberChange} />
+          </div>
+        </div>
+        <h5> &#61; {this.state.exchanged_number} </h5>
+      </div>
+    );
+  }
+});
 
 module.exports = ExchangeRateContainer;

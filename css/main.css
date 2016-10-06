@@ -59,3 +59,12 @@ h1, h2, h3, h4, h5, h6 {
 #list_item_input:focus {
   border: 2px solid #4DB3D6
 }
+
+#exchange_input {
+  box-shadow: none;
+  border-color: #BCBCBC;
+  background-color: white;
+}
+#exchange_input:focus {
+  border: 2px solid #4DB3D6
+}
