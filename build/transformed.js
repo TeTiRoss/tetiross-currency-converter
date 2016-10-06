@@ -21581,7 +21581,39 @@
 	var ExchangeRateContainer = React.createClass({
 	  displayName: 'ExchangeRateContainer',
 
+	  getInitialState: function () {
+	    return {
+	      rates: []
+	    };
+	  },
+
+	  loadRatesFromServer: function () {
+	    $.ajax({
+	      url: 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5',
+	      dataType: 'json',
+	      cache: false,
+	      success: function (data) {
+	        this.setState({ rates: data });
+	      }.bind(this)
+	    });
+	  },
+
+	  componentDidMount: function () {
+	    this.loadRatesFromServer();
+	    setInterval(this.loadRatesFromServer, 5000);
+	  },
+
 	  render: function () {
+	    var rate_boxes = this.state.rates.map(function (rate, i) {
+	      return React.createElement(RateBox, {
+	        currencyFrom: rate.ccy,
+	        currencyTo: rate.base_ccy,
+	        buy: rate.buy,
+	        sale: rate.sale,
+	        key: i
+	      });
+	    });
+
 	    return React.createElement(
 	      'div',
 	      { className: 'col-md-8 col-md-offset-2' },
@@ -21589,14 +21621,47 @@
 	        'div',
 	        { className: 'react_item_container' },
 	        React.createElement(
-	          'p',
+	          'h4',
 	          null,
-	          'Exchange rate app.'
-	        )
+	          ' Exchange rate app '
+	        ),
+	        React.createElement('hr', null),
+	        rate_boxes
 	      )
 	    );
 	  }
 	});
+
+	function RateBox(props) {
+	  return React.createElement(
+	    'div',
+	    { className: 'rate-box',
+	      style: props.currencyFrom === 'RUR' ? { display: 'none' } : {} },
+	    React.createElement(
+	      'h4',
+	      null,
+	      ' ',
+	      props.currencyFrom,
+	      ' - ',
+	      props.currencyTo,
+	      ' '
+	    ),
+	    React.createElement(
+	      'p',
+	      null,
+	      ' Buy: ',
+	      props.buy,
+	      ' '
+	    ),
+	    React.createElement(
+	      'p',
+	      null,
+	      ' Sell: ',
+	      props.sale,
+	      ' '
+	    )
+	  );
+	};
 
 	module.exports = ExchangeRateContainer;
 
