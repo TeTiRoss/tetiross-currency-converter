@@ -21680,7 +21680,7 @@
 	      'div',
 	      { className: this.props.rateBoxClass,
 	        onClick: this.handleRateBoxClick,
-	        style: this.props.currencyFrom === 'RUR' ? { display: 'none' } : {} },
+	        style: this.props.currencyFrom === 'BTC' ? { display: 'none' } : {} },
 	      React.createElement(
 	        'h4',
 	        null,
@@ -21742,7 +21742,7 @@
 	      null,
 	      ' = ',
 	      this.state.exchanged_number,
-	      ' '
+	      ' UAH '
 	    );
 
 	    return React.createElement(
@@ -21753,7 +21753,7 @@
 	        { className: 'row' },
 	        React.createElement(
 	          'div',
-	          { className: 'col-xs-3' },
+	          { className: 'col-md-3 col-sm-3 col-xs-5' },
 	          React.createElement('input', {
 	            type: 'number',
 	            min: '1',

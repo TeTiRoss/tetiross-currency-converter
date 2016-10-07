@@ -85,7 +85,7 @@ var RateBox = React.createClass({
     return (
       <div className={this.props.rateBoxClass}
            onClick={this.handleRateBoxClick}
-           style={this.props.currencyFrom === 'RUR' ? {display: 'none'} : {}} >
+           style={this.props.currencyFrom === 'BTC' ? {display: 'none'} : {}} >
 
         <h4> {this.props.currencyFrom} &#45; {this.props.currencyTo} </h4>
         <p> Buy: {this.props.buy} </p>
@@ -125,13 +125,13 @@ var ExchangeRateCalculator = React.createClass({
 
   render: function () {
     var output = (
-      <h5> &#61; {this.state.exchanged_number} </h5>
+      <h5> &#61; {this.state.exchanged_number} UAH </h5>
     );
 
     return (
       <div>
         <div className='row'>
-          <div className='col-xs-3'>
+          <div className='col-md-3 col-sm-3 col-xs-5'>
             <input
               type='number'
               min='1'
