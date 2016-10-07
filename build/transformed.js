@@ -21583,7 +21583,8 @@
 
 	  getInitialState: function () {
 	    return {
-	      rates: []
+	      rates: [],
+	      activeBoxIndex: 0
 	    };
 	  },
 
@@ -21598,6 +21599,10 @@
 	    });
 	  },
 
+	  changeActiveRateBox: function (index) {
+	    this.setState({ activeBoxIndex: index });
+	  },
+
 	  componentDidMount: function () {
 	    this.loadRatesFromServer();
 	    setInterval(this.loadRatesFromServer, 5000);
@@ -21610,10 +21615,12 @@
 	        currencyTo: rate.base_ccy,
 	        buy: rate.buy,
 	        sale: rate.sale,
-	        rateBoxClass: i === 0 ? 'rate-box active' : 'rate-box',
-	        key: i
+	        rateBoxClass: i === this.state.activeBoxIndex ? 'rate-box active' : 'rate-box',
+	        key: i,
+	        index: i,
+	        onRateBoxClick: this.changeActiveRateBox
 	      });
-	    });
+	    }.bind(this));
 
 	    return React.createElement(
 	      'div',
@@ -21644,36 +21651,46 @@
 	  }
 	});
 
-	function RateBox(props) {
-	  return React.createElement(
-	    'div',
-	    { className: props.rateBoxClass,
-	      style: props.currencyFrom === 'RUR' ? { display: 'none' } : {} },
-	    React.createElement(
-	      'h4',
-	      null,
-	      ' ',
-	      props.currencyFrom,
-	      ' - ',
-	      props.currencyTo,
-	      ' '
-	    ),
-	    React.createElement(
-	      'p',
-	      null,
-	      ' Buy: ',
-	      props.buy,
-	      ' '
-	    ),
-	    React.createElement(
-	      'p',
-	      null,
-	      ' Sale: ',
-	      props.sale,
-	      ' '
-	    )
-	  );
-	};
+	var RateBox = React.createClass({
+	  displayName: 'RateBox',
+
+
+	  handleRateBoxClick: function () {
+	    this.props.onRateBoxClick(this.props.index);
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: this.props.rateBoxClass,
+	        onClick: this.handleRateBoxClick,
+	        style: this.props.currencyFrom === 'RUR' ? { display: 'none' } : {} },
+	      React.createElement(
+	        'h4',
+	        null,
+	        ' ',
+	        this.props.currencyFrom,
+	        ' - ',
+	        this.props.currencyTo,
+	        ' '
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        ' Buy: ',
+	        this.props.buy,
+	        ' '
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        ' Sale: ',
+	        this.props.sale,
+	        ' '
+	      )
+	    );
+	  }
+	});
 
 	var ExchangeRateCalculator = React.createClass({
 	  displayName: 'ExchangeRateCalculator',

@@ -3,7 +3,8 @@ var React = require('react');
 var ExchangeRateContainer = React.createClass({
   getInitialState: function () {
     return {
-      rates: []
+      rates: [],
+      activeBoxIndex: 0
     }
   },
 
@@ -18,6 +19,10 @@ var ExchangeRateContainer = React.createClass({
     });
   },
 
+  changeActiveRateBox: function (index) {
+    this.setState({activeBoxIndex: index})
+  },
+
   componentDidMount: function () {
     this.loadRatesFromServer();
     setInterval(this.loadRatesFromServer, 5000)
@@ -30,10 +35,12 @@ var ExchangeRateContainer = React.createClass({
         currencyTo={rate.base_ccy}
         buy={rate.buy}
         sale={rate.sale}
-        rateBoxClass={ i === 0 ? 'rate-box active' : 'rate-box' }
+        rateBoxClass={ i === this.state.activeBoxIndex ? 'rate-box active' : 'rate-box' }
         key={i}
+        index={i}
+        onRateBoxClick={this.changeActiveRateBox}
       />
-    });
+    }.bind(this))
 
     return (
       <div className='col-md-8 col-md-offset-2'>
@@ -51,17 +58,26 @@ var ExchangeRateContainer = React.createClass({
   }
 })
 
-function RateBox (props) {
-  return (
-    <div className={props.rateBoxClass}
-         style={props.currencyFrom === 'RUR' ? {display: 'none'} : {}} >
+var RateBox = React.createClass({
 
-      <h4> {props.currencyFrom} &#45; {props.currencyTo} </h4>
-      <p> Buy: {props.buy} </p>
-      <p> Sale: {props.sale} </p>
-    </div>
-  );
-};
+  handleRateBoxClick: function () {
+    this.props.onRateBoxClick(this.props.index);
+  },
+
+  render: function () {
+    return (
+      <div className={this.props.rateBoxClass}
+           onClick={this.handleRateBoxClick}
+           style={this.props.currencyFrom === 'RUR' ? {display: 'none'} : {}} >
+
+        <h4> {this.props.currencyFrom} &#45; {this.props.currencyTo} </h4>
+        <p> Buy: {this.props.buy} </p>
+        <p> Sale: {this.props.sale} </p>
+      </div>
+    );
+  }
+})
+
 
 var ExchangeRateCalculator = React.createClass({
   getInitialState: function () {
