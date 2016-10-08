@@ -4,8 +4,7 @@ var ExchangeRateContainer = React.createClass({
   getInitialState: function () {
     return {
       rates: [],
-      activeBoxIndex: 0,
-      resetInput: false
+      activeBoxIndex: 0
     }
   },
 
@@ -24,20 +23,11 @@ var ExchangeRateContainer = React.createClass({
     this.setState({
       activeBoxIndex: index,
     })
-    this.handleInputField('reset');
-  },
-
-  handleInputField: function (action) {
-    if (action === 'reset') {
-      this.setState({ resetInput: true })
-    } else {
-      this.setState({ resetInput: false })
-    };
   },
 
   componentDidMount: function () {
     this.loadRatesFromServer();
-    setInterval(this.loadRatesFromServer, 5000)
+    setInterval(this.loadRatesFromServer, 10000)
   },
 
   render: function () {
@@ -65,9 +55,7 @@ var ExchangeRateContainer = React.createClass({
           {rate_boxes}
           <ExchangeRateCalculator
             exchangeRates={this.state.rates}
-            activeBox={this.state.activeBoxIndex}
-            resetInput={this.state.resetInput}
-            handleInputField={this.handleInputField} />
+            activeBox={this.state.activeBoxIndex} />
 
         </div>
       </div>
@@ -100,33 +88,44 @@ var ExchangeRateCalculator = React.createClass({
   getInitialState: function () {
     return {
       inputNumber: '',
-      exchanged_number: ''
+      convertedNumber: ''
     }
   },
 
   handleNumberChange: function (e) {
     newNumber = e.target.value;
-    exchangeRate = this.props.exchangeRates[this.props.activeBox].buy
+    this.setState({ inputNumber: newNumber });
 
-    if (newNumber != '') {
-      exchanged_number = (parseInt(newNumber, 10) * exchangeRate)
-                           .toFixed(2)
+    this.convertNumber(newNumber, this.props);
+  },
+
+  convertNumber: function (numberToConvert, props) {
+    exchangeRate = props.exchangeRates[props.activeBox].buy;
+
+    if (numberToConvert != '') {
+      convertedNumber = (parseInt(numberToConvert, 10) * exchangeRate)
+                           .toFixed(2);
     } else {
-      exchanged_number = ''
+      convertedNumber = '';
     };
 
-    this.setState({
-      inputNumber: newNumber,
-      exchanged_number: exchanged_number
-    });
+    this.setState({ convertedNumber: convertedNumber })
+  },
 
-    this.props.handleInputField('unreset');
+  componentWillReceiveProps: function (nextProps) {
+    this.convertNumber(this.state.inputNumber, nextProps)
   },
 
   render: function () {
-    var output = (
-      <h5> &#61; {this.state.exchanged_number} UAH </h5>
-    );
+    var output = function () {
+      converted = this.state.convertedNumber;
+      
+      if ( converted != '' ) {
+        return <h5> &#61; { converted } UAH </h5>
+      } else {
+        return ''
+      };
+    }.bind(this);
 
     return (
       <div>
@@ -138,11 +137,11 @@ var ExchangeRateCalculator = React.createClass({
               max='9999999999'
               className='form-control input-sm'
               id='exchange_input'
-              value={ this.props.resetInput ? '' : this.state.inputNumber }
-              onChange={this.handleNumberChange} />
+              value={ this.state.inputNumber }
+              onChange={ this.handleNumberChange } />
           </div>
         </div>
-        {this.state.exchanged_number != '' && !this.props.resetInput ? output : ''}
+        { output() }
       </div>
     );
   }
