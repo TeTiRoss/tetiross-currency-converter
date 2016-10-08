@@ -93,7 +93,8 @@ var ExchangeRateCalculator = React.createClass({
   },
 
   handleNumberChange: function (e) {
-    newNumber = e.target.value;
+    newNumber = e.target.value === '0' ? '' : e.target.value;
+
     this.setState({ inputNumber: newNumber });
 
     this.convertNumber(newNumber, this.props);
@@ -119,8 +120,8 @@ var ExchangeRateCalculator = React.createClass({
   render: function () {
     var output = function () {
       converted = this.state.convertedNumber;
-      
-      if ( converted != '' ) {
+
+      if ( converted != '' && converted != 0 ) {
         return <h5> &#61; { converted } UAH </h5>
       } else {
         return ''
@@ -133,7 +134,7 @@ var ExchangeRateCalculator = React.createClass({
           <div className='col-md-3 col-sm-3 col-xs-5'>
             <input
               type='number'
-              min='1'
+              min='0'
               max='9999999999'
               className='form-control input-sm'
               id='exchange_input'

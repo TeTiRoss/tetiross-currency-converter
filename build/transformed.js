@@ -21707,7 +21707,8 @@
 	  },
 
 	  handleNumberChange: function (e) {
-	    newNumber = e.target.value;
+	    newNumber = e.target.value === '0' ? '' : e.target.value;
+
 	    this.setState({ inputNumber: newNumber });
 
 	    this.convertNumber(newNumber, this.props);
@@ -21733,7 +21734,7 @@
 	    var output = function () {
 	      converted = this.state.convertedNumber;
 
-	      if (converted != '') {
+	      if (converted != '' && converted != 0) {
 	        return React.createElement(
 	          'h5',
 	          null,
@@ -21757,7 +21758,7 @@
 	          { className: 'col-md-3 col-sm-3 col-xs-5' },
 	          React.createElement('input', {
 	            type: 'number',
-	            min: '1',
+	            min: '0',
 	            max: '9999999999',
 	            className: 'form-control input-sm',
 	            id: 'exchange_input',
