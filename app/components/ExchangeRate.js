@@ -71,7 +71,9 @@ var ExchangeRateCalculator = React.createClass({
   getInitialState: function () {
     return {
       inputNumberLeft: '',
-      inputNumberRight: ''
+      inputNumberRight: '',
+      selectedCurrencyLeft: 'EUR',
+      selectedCurrencyRight: 'UAH'
     }
   },
 
@@ -80,7 +82,7 @@ var ExchangeRateCalculator = React.createClass({
 
     this.setState({ inputNumberLeft: newNumber });
 
-    this.convertNumberLeft(newNumber, this.props);
+    this.convertNumberLeft(newNumber);
   },
 
   handleRightNumberChange: function (e) {
@@ -88,11 +90,23 @@ var ExchangeRateCalculator = React.createClass({
 
     this.setState({ inputNumberRight: newNumber });
 
-    this.convertNumberRight(newNumber, this.props);
+    this.convertNumberRight(newNumber);
   },
 
-  convertNumberLeft: function (numberToConvert, props) {
-    exchangeRate = props.exchangeRates[0].buy;
+  convertNumberLeft: function (numberToConvert, currency) {
+    if (currency == undefined) {
+      currency = this.state.selectedCurrencyLeft;
+    };
+
+    var exchangeRate = 1;
+    var rates = this.props.exchangeRates;
+
+    for (var i = 0; i < rates.length; i++) {
+      if (rates[i].ccy === currency) {
+        exchangeRate = rates[i].buy;
+        break;
+      };
+    };
 
     if (numberToConvert != '') {
       convertedNumber = (Number(numberToConvert) * exchangeRate).toFixed(2);
@@ -103,8 +117,8 @@ var ExchangeRateCalculator = React.createClass({
     this.setState({ inputNumberRight: convertedNumber })
   },
 
-  convertNumberRight: function (numberToConvert, props) {
-    exchangeRate = props.exchangeRates[0].buy;
+  convertNumberRight: function (numberToConvert) {
+    exchangeRate = this.props.exchangeRates[0].buy;
 
     if (numberToConvert != '') {
       convertedNumber = (Number(numberToConvert) / exchangeRate).toFixed(2);
@@ -115,7 +129,26 @@ var ExchangeRateCalculator = React.createClass({
     this.setState({ inputNumberLeft: convertedNumber })
   },
 
+  handleCurrencyChangeLeft: function (e) {
+    currency = e.target.value;
+    this.setState({ selectedCurrencyLeft: currency })
+
+    this.convertNumberLeft(this.state.inputNumberLeft, currency)
+  },
+
+  handleCurrencyChangeRight: function (e) {
+    currency = e.target.value;
+    this.setState({ selectedCurrencyRight: currency })
+  },
+
   render: function () {
+    var currencies = this.props.exchangeRates.map(function (rate, i) {
+      if (rate.ccy == 'BTC') {
+        return <option key={i}> UAH </option>
+      };
+      return <option key={i}> { rate.ccy } </option>
+    });
+
     return (
       <div>
         <div className='row'>
@@ -126,11 +159,11 @@ var ExchangeRateCalculator = React.createClass({
               id='exchange_input'
               value={ this.state.inputNumberLeft }
               onChange={ this.handleLeftNumberChange } />
-            <select className='form-control'>
-              <option>USD</option>
-              <option>EUR</option>
-              <option>RUR</option>
-              <option>UAH</option>
+            <select
+              className='form-control'
+              value={ this.state.selectedCurrencyLeft }
+              onChange={ this.handleCurrencyChangeLeft }>
+              { currencies }
             </select>
           </div>
           <div className='col-md-2 col-sm-2 col-xs-2' id='exchange_sign'>
@@ -143,11 +176,11 @@ var ExchangeRateCalculator = React.createClass({
               id='exchange_input'
               value={ this.state.inputNumberRight }
               onChange={ this.handleRightNumberChange } />
-            <select className='form-control'>
-              <option>USD</option>
-              <option>EUR</option>
-              <option>RUR</option>
-              <option>UAH</option>
+            <select
+              className='form-control'
+              value={ this.state.selectedCurrencyRight }
+              onChange={ this.handleCurrencyChangeRight }>
+                { currencies }
             </select>
           </div>
         </div>

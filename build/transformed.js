@@ -21685,7 +21685,9 @@
 	  getInitialState: function () {
 	    return {
 	      inputNumberLeft: '',
-	      inputNumberRight: ''
+	      inputNumberRight: '',
+	      selectedCurrencyLeft: 'EUR',
+	      selectedCurrencyRight: 'UAH'
 	    };
 	  },
 
@@ -21694,7 +21696,7 @@
 
 	    this.setState({ inputNumberLeft: newNumber });
 
-	    this.convertNumberLeft(newNumber, this.props);
+	    this.convertNumberLeft(newNumber);
 	  },
 
 	  handleRightNumberChange: function (e) {
@@ -21702,11 +21704,23 @@
 
 	    this.setState({ inputNumberRight: newNumber });
 
-	    this.convertNumberRight(newNumber, this.props);
+	    this.convertNumberRight(newNumber);
 	  },
 
-	  convertNumberLeft: function (numberToConvert, props) {
-	    exchangeRate = props.exchangeRates[0].buy;
+	  convertNumberLeft: function (numberToConvert, currency) {
+	    if (currency == undefined) {
+	      currency = this.state.selectedCurrencyLeft;
+	    };
+
+	    var exchangeRate = 1;
+	    var rates = this.props.exchangeRates;
+
+	    for (var i = 0; i < rates.length; i++) {
+	      if (rates[i].ccy === currency) {
+	        exchangeRate = rates[i].buy;
+	        break;
+	      };
+	    };
 
 	    if (numberToConvert != '') {
 	      convertedNumber = (Number(numberToConvert) * exchangeRate).toFixed(2);
@@ -21717,8 +21731,8 @@
 	    this.setState({ inputNumberRight: convertedNumber });
 	  },
 
-	  convertNumberRight: function (numberToConvert, props) {
-	    exchangeRate = props.exchangeRates[0].buy;
+	  convertNumberRight: function (numberToConvert) {
+	    exchangeRate = this.props.exchangeRates[0].buy;
 
 	    if (numberToConvert != '') {
 	      convertedNumber = (Number(numberToConvert) / exchangeRate).toFixed(2);
@@ -21729,7 +21743,36 @@
 	    this.setState({ inputNumberLeft: convertedNumber });
 	  },
 
+	  handleCurrencyChangeLeft: function (e) {
+	    currency = e.target.value;
+	    this.setState({ selectedCurrencyLeft: currency });
+
+	    this.convertNumberLeft(this.state.inputNumberLeft, currency);
+	  },
+
+	  handleCurrencyChangeRight: function (e) {
+	    currency = e.target.value;
+	    this.setState({ selectedCurrencyRight: currency });
+	  },
+
 	  render: function () {
+	    var currencies = this.props.exchangeRates.map(function (rate, i) {
+	      if (rate.ccy == 'BTC') {
+	        return React.createElement(
+	          'option',
+	          { key: i },
+	          ' UAH '
+	        );
+	      };
+	      return React.createElement(
+	        'option',
+	        { key: i },
+	        ' ',
+	        rate.ccy,
+	        ' '
+	      );
+	    });
+
 	    return React.createElement(
 	      'div',
 	      null,
@@ -21747,27 +21790,11 @@
 	            onChange: this.handleLeftNumberChange }),
 	          React.createElement(
 	            'select',
-	            { className: 'form-control' },
-	            React.createElement(
-	              'option',
-	              null,
-	              'USD'
-	            ),
-	            React.createElement(
-	              'option',
-	              null,
-	              'EUR'
-	            ),
-	            React.createElement(
-	              'option',
-	              null,
-	              'RUR'
-	            ),
-	            React.createElement(
-	              'option',
-	              null,
-	              'UAH'
-	            )
+	            {
+	              className: 'form-control',
+	              value: this.state.selectedCurrencyLeft,
+	              onChange: this.handleCurrencyChangeLeft },
+	            currencies
 	          )
 	        ),
 	        React.createElement(
@@ -21786,27 +21813,11 @@
 	            onChange: this.handleRightNumberChange }),
 	          React.createElement(
 	            'select',
-	            { className: 'form-control' },
-	            React.createElement(
-	              'option',
-	              null,
-	              'USD'
-	            ),
-	            React.createElement(
-	              'option',
-	              null,
-	              'EUR'
-	            ),
-	            React.createElement(
-	              'option',
-	              null,
-	              'RUR'
-	            ),
-	            React.createElement(
-	              'option',
-	              null,
-	              'UAH'
-	            )
+	            {
+	              className: 'form-control',
+	              value: this.state.selectedCurrencyRight,
+	              onChange: this.handleCurrencyChangeRight },
+	            currencies
 	          )
 	        )
 	      )
