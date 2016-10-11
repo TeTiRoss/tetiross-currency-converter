@@ -8,35 +8,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
 }
 
-#header_img {
-  height: 80px;
-  width: auto;
-  margin-bottom: 20px;
-}
-
-#header_txt {
-  display: inline-block;
-  font-weight: bold;
-}
-
-#header_hr {
-  margin: 0 0 0 0;
-}
-
-.social_icons {
-  margin-left: 10px;
-}
-
-#git_logo, #git_logo:link, #git_logo:hover, #git_logo:visited {
-  color: black;
-}
-
-#facebook_logo, #facebook_logo:link, #facebook_logo:hover, #facebook_logo:visited {
-  color: #2D4486;
-}
-
-#linkedin_logo, #linkedin_logo:link, #linkedin_logo:hover, #linkedin_logo:visited {
-  color: #1871AE;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .react_item_container {
@@ -54,13 +29,9 @@ h1, h2, h3, h4, h5, h6 {
   border: 4px solid white;
 }
 
-.rate-box:hover {
-  cursor: pointer;
-}
-
-.active {
-  border: 4px solid #4DB3D6;
-  border-radius: 7px;
+#exchange_sign {
+  text-align: center;
+  margin-top: 15px;
 }
 
 #list_item_input {
@@ -76,7 +47,9 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: none;
   border-color: #BCBCBC;
   background-color: white;
+  border-radius: 4px;
+  margin-bottom: 2px;
 }
 #exchange_input:focus {
-  border: 2px solid #4DB3D6
+  border: 2px solid #4DB3D6;
 }

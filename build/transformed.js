@@ -21583,8 +21583,7 @@
 
 	  getInitialState: function () {
 	    return {
-	      rates: [],
-	      activeBoxIndex: 0
+	      rates: []
 	    };
 	  },
 
@@ -21596,12 +21595,6 @@
 	      success: function (data) {
 	        this.setState({ rates: data });
 	      }.bind(this)
-	    });
-	  },
-
-	  changeActiveRateBox: function (index) {
-	    this.setState({
-	      activeBoxIndex: index
 	    });
 	  },
 
@@ -21617,10 +21610,7 @@
 	        currencyTo: rate.base_ccy,
 	        buy: rate.buy,
 	        sale: rate.sale,
-	        rateBoxClass: i === this.state.activeBoxIndex ? 'rate-box active' : 'rate-box',
-	        key: i,
-	        index: i,
-	        onRateBoxClick: this.changeActiveRateBox
+	        key: i
 	      });
 	    }.bind(this));
 
@@ -21648,8 +21638,7 @@
 	        ),
 	        rate_boxes,
 	        React.createElement(ExchangeRateCalculator, {
-	          exchangeRates: this.state.rates,
-	          activeBox: this.state.activeBoxIndex })
+	          exchangeRates: this.state.rates })
 	      )
 	    );
 	  }
@@ -21658,16 +21647,10 @@
 	var RateBox = React.createClass({
 	  displayName: 'RateBox',
 
-
-	  handleRateBoxClick: function () {
-	    this.props.onRateBoxClick(this.props.index);
-	  },
-
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: this.props.rateBoxClass,
-	        onClick: this.handleRateBoxClick,
+	      { className: 'rate-box',
 	        style: this.props.currencyFrom === 'BTC' ? { display: 'none' } : {} },
 	      React.createElement(
 	        'h4',
@@ -21701,52 +21684,52 @@
 
 	  getInitialState: function () {
 	    return {
-	      inputNumber: '',
-	      convertedNumber: ''
+	      inputNumberLeft: '',
+	      inputNumberRight: ''
 	    };
 	  },
 
-	  handleNumberChange: function (e) {
+	  handleLeftNumberChange: function (e) {
 	    newNumber = e.target.value === '0' ? '' : e.target.value;
 
-	    this.setState({ inputNumber: newNumber });
+	    this.setState({ inputNumberLeft: newNumber });
 
-	    this.convertNumber(newNumber, this.props);
+	    this.convertNumberLeft(newNumber, this.props);
 	  },
 
-	  convertNumber: function (numberToConvert, props) {
-	    exchangeRate = props.exchangeRates[props.activeBox].buy;
+	  handleRightNumberChange: function (e) {
+	    newNumber = e.target.value === '0' ? '' : e.target.value;
+
+	    this.setState({ inputNumberRight: newNumber });
+
+	    this.convertNumberRight(newNumber, this.props);
+	  },
+
+	  convertNumberLeft: function (numberToConvert, props) {
+	    exchangeRate = props.exchangeRates[0].buy;
 
 	    if (numberToConvert != '') {
-	      convertedNumber = (parseInt(numberToConvert, 10) * exchangeRate).toFixed(2);
+	      convertedNumber = (Number(numberToConvert) * exchangeRate).toFixed(2);
 	    } else {
 	      convertedNumber = '';
 	    };
 
-	    this.setState({ convertedNumber: convertedNumber });
+	    this.setState({ inputNumberRight: convertedNumber });
 	  },
 
-	  componentWillReceiveProps: function (nextProps) {
-	    this.convertNumber(this.state.inputNumber, nextProps);
+	  convertNumberRight: function (numberToConvert, props) {
+	    exchangeRate = props.exchangeRates[0].buy;
+
+	    if (numberToConvert != '') {
+	      convertedNumber = (Number(numberToConvert) / exchangeRate).toFixed(2);
+	    } else {
+	      convertedNumber = '';
+	    };
+
+	    this.setState({ inputNumberLeft: convertedNumber });
 	  },
 
 	  render: function () {
-	    var output = function () {
-	      converted = this.state.convertedNumber;
-
-	      if (converted != '' && converted != 0) {
-	        return React.createElement(
-	          'h5',
-	          null,
-	          ' = ',
-	          converted,
-	          ' UAH '
-	        );
-	      } else {
-	        return '';
-	      };
-	    }.bind(this);
-
 	    return React.createElement(
 	      'div',
 	      null,
@@ -21755,18 +21738,78 @@
 	        { className: 'row' },
 	        React.createElement(
 	          'div',
-	          { className: 'col-md-3 col-sm-3 col-xs-5' },
+	          { className: 'col-md-5 col-sm-5 col-xs-5' },
 	          React.createElement('input', {
 	            type: 'number',
-	            min: '0',
-	            max: '9999999999',
 	            className: 'form-control input-sm',
 	            id: 'exchange_input',
-	            value: this.state.inputNumber,
-	            onChange: this.handleNumberChange })
+	            value: this.state.inputNumberLeft,
+	            onChange: this.handleLeftNumberChange }),
+	          React.createElement(
+	            'select',
+	            { className: 'form-control' },
+	            React.createElement(
+	              'option',
+	              null,
+	              'USD'
+	            ),
+	            React.createElement(
+	              'option',
+	              null,
+	              'EUR'
+	            ),
+	            React.createElement(
+	              'option',
+	              null,
+	              'RUR'
+	            ),
+	            React.createElement(
+	              'option',
+	              null,
+	              'UAH'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-2 col-sm-2 col-xs-2', id: 'exchange_sign' },
+	          React.createElement('i', { className: 'fa fa-exchange fa-2x', 'aria-hidden': 'true' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'col-md-5 col-sm-5 col-xs-5' },
+	          React.createElement('input', {
+	            type: 'number',
+	            className: 'form-control input-sm',
+	            id: 'exchange_input',
+	            value: this.state.inputNumberRight,
+	            onChange: this.handleRightNumberChange }),
+	          React.createElement(
+	            'select',
+	            { className: 'form-control' },
+	            React.createElement(
+	              'option',
+	              null,
+	              'USD'
+	            ),
+	            React.createElement(
+	              'option',
+	              null,
+	              'EUR'
+	            ),
+	            React.createElement(
+	              'option',
+	              null,
+	              'RUR'
+	            ),
+	            React.createElement(
+	              'option',
+	              null,
+	              'UAH'
+	            )
+	          )
 	        )
-	      ),
-	      output()
+	      )
 	    );
 	  }
 	});
