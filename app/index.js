@@ -9,7 +9,7 @@ var App = React.createClass({
     return (
       <div>
         <ReactHeader />
-        <ListItems />
+        
         <ExchangeRate />
       </div>
     );
