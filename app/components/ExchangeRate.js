@@ -24,24 +24,29 @@ var ExchangeRateCalculator = React.createClass({
       inputNumberRight: '',
       selectedCurrencyLeft: 'EUR',
       selectedCurrencyRight: 'UAH',
-      rates: {}
+      rates: {},
+      currenciesNames: {}
     }
   },
 
   loadRatesFromServer: function() {
-    var link = 'https://openexchangerates.org/api/latest.json?' +
+    var ratesLink = 'https://openexchangerates.org/api/latest.json?' +
                'app_id=3d34b20d5dde4351baf2e42543969015'
-    $.getJSON(link, function (data) {
+    $.getJSON(ratesLink, function (data) {
       fx.rates = data.rates;
       fx.base = data.base;
 
       this.setState({rates: fx.rates})
     }.bind(this));
+
+    currenciesLink = 'https://openexchangerates.org/api/currencies.json'
+    $.getJSON(currenciesLink, function (data) {
+      this.setState({currenciesNames: data})
+    }.bind(this));
   },
 
   componentDidMount: function () {
     this.loadRatesFromServer();
-    // setInterval(this.loadRatesFromServer, 10000)
   },
 
   handleLeftNumberChange: function (e) {
@@ -119,9 +124,17 @@ var ExchangeRateCalculator = React.createClass({
 
   render: function () {
     var currencies = Object.keys(this.state.rates);
+    var currenciesNames = Object.keys(this.state.currenciesNames)
+                          .map(function(key) {
+                            return this.state.currenciesNames[key];
+                          }.bind(this));
 
     var optionsForSelect = currencies.map(function (currency, i) {
-      return <option key={i}> { currency } </option>
+      return (
+        <option key={i} value={currency}>
+          { currency } { currenciesNames[i] }
+        </option>
+      );
     });
 
     return (
