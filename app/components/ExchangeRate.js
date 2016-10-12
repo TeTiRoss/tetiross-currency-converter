@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var fx = require("money");
 
 var ExchangeRateContainer = React.createClass({
@@ -31,7 +32,7 @@ var ExchangeRateCalculator = React.createClass({
 
   loadRatesFromServer: function() {
     var ratesLink = 'https://openexchangerates.org/api/latest.json?' +
-               'app_id=3d34b20d5dde4351baf2e42543969015'
+               'app_id=1697071e3bff42dbac3df8e0fe928658'
     $.getJSON(ratesLink, function (data) {
       fx.rates = data.rates;
       fx.base = data.base;
@@ -47,6 +48,8 @@ var ExchangeRateCalculator = React.createClass({
 
   componentDidMount: function () {
     this.loadRatesFromServer();
+
+    $('.selectCurrency').chosen();
   },
 
   handleLeftNumberChange: function (e) {

@@ -82,6 +82,8 @@
 
 	ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
 
+	$('.selectCurrency').chosen();
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
@@ -21577,6 +21579,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(34);
 	var fx = __webpack_require__(174);
 
 	var ExchangeRateContainer = React.createClass({
@@ -21620,7 +21623,7 @@
 	  },
 
 	  loadRatesFromServer: function () {
-	    var ratesLink = 'https://openexchangerates.org/api/latest.json?' + 'app_id=3d34b20d5dde4351baf2e42543969015';
+	    var ratesLink = 'https://openexchangerates.org/api/latest.json?' + 'app_id=1697071e3bff42dbac3df8e0fe928658';
 	    $.getJSON(ratesLink, function (data) {
 	      fx.rates = data.rates;
 	      fx.base = data.base;
@@ -21636,6 +21639,8 @@
 
 	  componentDidMount: function () {
 	    this.loadRatesFromServer();
+
+	    $('.selectCurrency').chosen();
 	  },
 
 	  handleLeftNumberChange: function (e) {

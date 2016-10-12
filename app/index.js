@@ -27,3 +27,5 @@ var ReactHeader = React.createClass({
 });
 
 ReactDOM.render(<App />, document.getElementById('app'))
+
+$('.selectCurrency').chosen();
