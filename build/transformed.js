@@ -21582,28 +21582,6 @@
 	var ExchangeRateContainer = React.createClass({
 	  displayName: 'ExchangeRateContainer',
 
-	  loadRatesFromServer: function () {
-	    $.ajax({
-	      url: 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5',
-	      dataType: 'json',
-	      cache: false,
-	      success: function (data) {
-	        this.setState({ rates: data });
-	      }.bind(this)
-	    });
-
-	    $.getJSON('http://api.fixer.io/latest?base=USD', function (data) {
-	      fx.rates = data.rates;
-	      fx.base = data.base;
-	      fx.rates.USD = 1;
-	    });
-	  },
-
-	  componentDidMount: function () {
-	    this.loadRatesFromServer();
-	    setInterval(this.loadRatesFromServer, 10000);
-	  },
-
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -21635,8 +21613,24 @@
 	      inputNumberLeft: '',
 	      inputNumberRight: '',
 	      selectedCurrencyLeft: 'EUR',
-	      selectedCurrencyRight: 'DKK'
+	      selectedCurrencyRight: 'UAH',
+	      rates: {}
 	    };
+	  },
+
+	  loadRatesFromServer: function () {
+	    var link = 'https://openexchangerates.org/api/latest.json?' + 'app_id=3d34b20d5dde4351baf2e42543969015';
+	    $.getJSON(link, function (data) {
+	      fx.rates = data.rates;
+	      fx.base = data.base;
+
+	      this.setState({ rates: fx.rates });
+	    }.bind(this));
+	  },
+
+	  componentDidMount: function () {
+	    this.loadRatesFromServer();
+	    // setInterval(this.loadRatesFromServer, 10000)
 	  },
 
 	  handleLeftNumberChange: function (e) {
@@ -21666,7 +21660,7 @@
 	    } else {
 	      currency_to = this.state.selectedCurrencyRight;
 	      currency_from = currency;
-	    }
+	    };
 
 	    if (numberToConvert != '') {
 	      convertedNumber = fx.convert(Number(numberToConvert), { from: currency_from,
@@ -21709,7 +21703,7 @@
 	  },
 
 	  render: function () {
-	    var currencies = Object.keys(fx.rates);
+	    var currencies = Object.keys(this.state.rates);
 
 	    var optionsForSelect = currencies.map(function (currency, i) {
 	      return React.createElement(

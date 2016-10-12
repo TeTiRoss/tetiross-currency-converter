@@ -2,28 +2,6 @@ var React = require('react');
 var fx = require("money");
 
 var ExchangeRateContainer = React.createClass({
-  loadRatesFromServer: function() {
-    $.ajax({
-      url: 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5',
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        this.setState({rates: data});
-      }.bind(this)
-    });
-
-    $.getJSON('http://api.fixer.io/latest?base=USD', function (data) {
-      fx.rates = data.rates;
-      fx.base = data.base;
-      fx.rates.USD = 1;
-    });
-  },
-
-  componentDidMount: function () {
-    this.loadRatesFromServer();
-    setInterval(this.loadRatesFromServer, 10000)
-  },
-
   render: function () {
     return (
       <div className='col-md-8 col-md-offset-2'>
@@ -45,8 +23,25 @@ var ExchangeRateCalculator = React.createClass({
       inputNumberLeft: '',
       inputNumberRight: '',
       selectedCurrencyLeft: 'EUR',
-      selectedCurrencyRight: 'DKK'
+      selectedCurrencyRight: 'UAH',
+      rates: {}
     }
+  },
+
+  loadRatesFromServer: function() {
+    var link = 'https://openexchangerates.org/api/latest.json?' +
+               'app_id=3d34b20d5dde4351baf2e42543969015'
+    $.getJSON(link, function (data) {
+      fx.rates = data.rates;
+      fx.base = data.base;
+
+      this.setState({rates: fx.rates})
+    }.bind(this));
+  },
+
+  componentDidMount: function () {
+    this.loadRatesFromServer();
+    // setInterval(this.loadRatesFromServer, 10000)
   },
 
   handleLeftNumberChange: function (e) {
@@ -76,7 +71,7 @@ var ExchangeRateCalculator = React.createClass({
     } else {
       currency_to = this.state.selectedCurrencyRight;
       currency_from = currency;
-    }
+    };
 
 
     if (numberToConvert != '') {
@@ -123,7 +118,7 @@ var ExchangeRateCalculator = React.createClass({
   },
 
   render: function () {
-    var currencies = Object.keys(fx.rates);
+    var currencies = Object.keys(this.state.rates);
 
     var optionsForSelect = currencies.map(function (currency, i) {
       return <option key={i}> { currency } </option>
@@ -143,7 +138,7 @@ var ExchangeRateCalculator = React.createClass({
               className='form-control'
               value={ this.state.selectedCurrencyLeft }
               onChange={ this.handleCurrencyChangeLeft }>
-              { optionsForSelect }
+                { optionsForSelect }
             </select>
           </div>
           <div className='col-md-2 col-sm-2 col-xs-2' id='exchange_sign'>
