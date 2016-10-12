@@ -58,7 +58,6 @@
 	      'div',
 	      null,
 	      React.createElement(ReactHeader, null),
-	      React.createElement(ListItems, null),
 	      React.createElement(ExchangeRate, null)
 	    );
 	  }
