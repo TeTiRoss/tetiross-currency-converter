@@ -20,7 +20,7 @@ var ReactHeader = React.createClass({
   render: function () {
     return (
       <div className='col-md-8 col-md-offset-2'>
-        <h1>React apps</h1>
+        <h1>React app</h1>
       </div>
     );
   }
