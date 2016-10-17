@@ -73,7 +73,7 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        'React apps'
+	        'React app'
 	      )
 	    );
 	  }
