@@ -1,4 +1,3 @@
 # tetiross.github.io
 
-##  
-Test React app
+Test React app (Currency Converter)
