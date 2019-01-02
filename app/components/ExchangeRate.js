@@ -7,7 +7,7 @@ var ExchangeRateContainer = React.createClass({
     return (
       <div className='col-md-8 col-md-offset-2'>
         <div className='react_item_container'>
-          <h4> Currency converter </h4>
+          <h4> Currency Converter </h4>
           <p>
             App converts your input by the exchange rate of chosen currency.
           </p>
